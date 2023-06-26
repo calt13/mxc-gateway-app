@@ -13,7 +13,13 @@ export default async function handler(req: NextRequest) {
   if (!mxcUri) {
     return new Response("mxc URI should not be blank", { status: 400 });
   }
-  const serverUrl = process.env.MATRIX_SERVER_URL;
+
+  const serverUrl = `https://${mxcUri.substring(
+    6,
+    mxcUri.lastIndexOf("/")
+  )}/_matrix/media/r0/`;
+  console.log(serverUrl);
+  // || process.env.MATRIX_SERVER_URL;
   const downloadUrl = `${serverUrl}/download/${mxcUri.substring(6)}`;
 
   return await fetch(downloadUrl);
